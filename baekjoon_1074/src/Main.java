@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class Main {
     static int N, r, c;
     static int ans = 0;
