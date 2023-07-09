@@ -1,11 +1,10 @@
 import java.util.*;
 
 public class Main {
-    static Fish[][] map = new Fish[4][4];
     static List<Fish> fishList = new ArrayList<Fish>();
     static int result = 0;
 
-    public static class Fish implements Comparable<Fish>, Cloneable {
+    public static class Fish implements Comparable<Fish> {
         int x, y, num, dir;
         boolean alive;
 
@@ -15,11 +14,6 @@ public class Main {
             this.num = num;
             this.dir = dir;
             this.alive = alive;
-        }
-
-        @Override
-        public Fish clone() throws CloneNotSupportedException {
-            return (Fish) super.clone();
         }
 
         @Override
@@ -39,127 +33,60 @@ public class Main {
     }
 
     public static void DFS(Shark shark, List<Fish> fishList) {
-        System.out.println("DFS x : " + shark.x + " y : " + shark.y);
         int dx, dy; //바꿀 물고기 좌표
+        int[] dfx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
+        int[] dfy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
+
         //물고기 이동
-        System.out.println("물고기 이동");
         for (int i = 0; i < fishList.size(); i++) {
             if (fishList.get(i).alive == true) {
                 int cnt = 0;// 이동 가능한지 확인
                 while (true) {
                     dx = fishList.get(i).x;
                     dy = fishList.get(i).y;
-                    //System.out.println("x : " + dx + " y : " + dy + " num : " + fishList.get(i).num + " dir : " + fishList.get(i).dir);
-                    switch (fishList.get(i).dir) {
-                        case 1: //위
-                            dx--;
-                            break;
-                        case 2: //왼쪽 위
-                            dx--;
-                            dy--;
-                            break;
-                        case 3: //왼쪽
-                            dy--;
-                            break;
-                        case 4: //왼쪽 아래
-                            dy--;
-                            dx++;
-                            break;
-                        case 5: //아래
-                            dx++;
-                            break;
-                        case 6: //오른쪽 아래
-                            dx++;
-                            dy++;
-                            break;
-                        case 7: //오른쪽
-                            dy++;
-                            break;
-                        case 8: //오른쪽 위
-                            dy++;
-                            dx--;
-                            break;
-                    }
-                    //System.out.println("dx : " + dx + " dy : " + dy);
+                    dx += dfx[fishList.get(i).dir];
+                    dy += dfy[fishList.get(i).dir];
+
                     //이동 가능
                     if (dx >= 0 && dy >= 0 && dx < 4 && dy < 4 && (dx != shark.x || dy != shark.y)) {
-                        //System.out.println("이동 dx : " + dx + " dy : " + dy);
-                        for (int j = 0; j < fishList.size(); j++) {
-                            if (fishList.get(j).x == dx && fishList.get(j).y == dy) {//바꿀 물고기 찾음
-                                //System.out.println("바꿈 " + i + " " + j);
-                                int tempx, tempy;
-                                tempx = fishList.get(i).x;
-                                tempy = fishList.get(i).y;
-                                fishList.get(i).x = fishList.get(j).x;
-                                fishList.get(i).y = fishList.get(j).y;
-                                fishList.get(j).x = tempx;
-                                fishList.get(j).y = tempy;
-                                break;
-                            }
-                        }
+                        int index = getfishindex(dx, dy, fishList);
+                        int tempx, tempy;
+                        tempx = fishList.get(i).x;
+                        tempy = fishList.get(i).y;
+                        fishList.get(i).x = fishList.get(index).x;
+                        fishList.get(i).y = fishList.get(index).y;
+                        fishList.get(index).x = tempx;
+                        fishList.get(index).y = tempy;
                         break;
                     } else cnt++;
+
                     fishList.get(i).dir++;
                     if (fishList.get(i).dir > 8) fishList.get(i).dir = 1;
                     if (cnt > 7) break;
                 }
             }
         }
+
         int sx, sy;
+        int[] sdx = {0, -1, -1, 0, 1, 1, 1, 0, -1};
+        int[] sdy = {0, 0, -1, -1, -1, 0, 1, 1, 1};
         sx = shark.x;
         sy = shark.y;
         //상어 이동
         while (true) { //상어가 이동 가능할 동안 반복
-            System.out.println("sx : " + sx + " sy : " + sy);
-            switch (shark.dir) {
-                case 1: //위
-                    sx--;
-                    break;
-                case 2: //왼쪽 위
-                    sx--;
-                    sy--;
-                    break;
-                case 3: //왼쪽
-                    sy--;
-                    break;
-                case 4: //왼쪽 아래
-                    sy--;
-                    sx++;
-                    break;
-                case 5: //아래
-                    sx++;
-                    break;
-                case 6: //오른쪽 아래
-                    sy++;
-                    sx++;
-                    break;
-                case 7: //오른쪽
-                    sy++;
-                    break;
-                case 8: //오른쪽 위
-                    sy++;
-                    sx--;
-                    break;
-            }
+            sx += sdx[shark.dir];
+            sy += sdy[shark.dir];
+
             if (sx >= 0 && sy >= 0 && sx < 4 && sy < 4) {//이동가능
                 shark.x = sx;
                 shark.y = sy;
                 if (fishList.get(getfishindex(sx, sy, fishList)).alive == Boolean.TRUE) {
-                    List<Fish> tempfishList = new ArrayList<Fish>();
-                    tempfishList.addAll(fishList);
-
+                    List<Fish> tempfishList;
+                    tempfishList = copyArray(fishList); //새로운 물고기 리스트 생성
                     tempfishList.get(getfishindex(sx, sy, fishList)).alive = Boolean.FALSE;
-                    System.out.println("물고기 먹음 " + fishList.get(getfishindex(sx, sy, fishList)).num);
-                    System.out.println("test");
-                    printFish(tempfishList);
-                    System.out.println();
-                    printFish(fishList);
-                    int tempdir = shark.dir;
-                    shark.dir = fishList.get(getfishindex(sx, sy, tempfishList)).dir;
-                    System.out.println("dir : " + shark.dir);
-                    DFS(shark, fishList);
-                    shark.dir = tempdir;
-                    printFish(fishList);
+                    Shark tempshark = new Shark(shark.x, shark.y, shark.dir);
+                    tempshark.dir = tempfishList.get(getfishindex(sx, sy, tempfishList)).dir;
+                    DFS(tempshark, tempfishList);
                 }
             } else break;
         }
@@ -169,7 +96,6 @@ public class Main {
                 sum += fishList.get(i).num;
         }
         if (result < sum) result = sum;
-        System.out.println("sum : " + sum);
     }
 
     public static int getfishindex(int x, int y, List<Fish> fishList) {
@@ -186,6 +112,12 @@ public class Main {
         }
     }
 
+    public static List<Fish> copyArray(List<Fish> fishList) {
+        List<Fish> tempfishList = new ArrayList<Fish>();
+        fishList.forEach(t -> tempfishList.add(new Fish(t.x, t.y, t.num, t.dir, t.alive)));
+        return tempfishList;
+    }
+
     public static void main(String[] args) {
         int num, dir;
         Shark shark = null;
@@ -200,12 +132,10 @@ public class Main {
                 } else fishList.add(new Fish(i, j, num, dir, Boolean.TRUE));
             }
         }
-
-
         fishList.sort(Comparator.naturalOrder());
-        printFish(fishList);
+
         DFS(shark, fishList);
 
-        System.out.println("result : " + result);
+        System.out.println(result);
     }
 }
