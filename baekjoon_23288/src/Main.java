@@ -3,10 +3,10 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
-    static int N, M, K, result = 0, dice = 6;
+    static int N, M, K, result = 0;
     static int x = 0, y = 0;
     static int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
-    static int[][] map;
+    static int[][] map, dice = {{0, 2, 0}, {4, 1, 3}, {0, 5, 0}, {0, 6, 0}};
     static Boolean[][] visit;
     static Queue<Pair> queue = new LinkedList<>();
 
@@ -20,56 +20,49 @@ public class Main {
     }
 
     static int BFS(int x, int y, int val, int score) {
-        //System.out.println("BFS x : " + x + " y : " + y + " val : " + val);
-
         queue.poll();
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
             if (nx >= 0 && ny >= 0 && nx < N && ny < M)
                 if (map[nx][ny] == val && visit[nx][ny] == false) { //같다
-                    visit[nx][ny] = true;
+                    visit[nx][ny] = true; //방문 처리
                     queue.add(new Pair(x + dx[i], y + dy[i]));
                 }
         }
         if (!queue.isEmpty())
             return BFS(queue.peek().x, queue.peek().y, val, score + 1);
-        System.out.println("Score : " + score);
         return score;
     }
 
     //동 0, 남 1, 서 2, 북 3
     static void move(int dir, int index) {
-        System.out.println("MOVE dir : " + dir + " index : " + index);
-        System.out.println(x + " " + y);
+
         if (index == K) return;
 
         int nx = x + dx[dir]; //다음 위치
         int ny = y + dy[dir];
 
         if (!(nx >= 0 && ny >= 0 && nx < N && ny < M)) { //이동 불가능
-            System.out.println("이동 불가능");
-            nx -= 2 * dx[dir]; //반대
+            nx -= 2 * dx[dir]; //반대로 가도록
             ny -= 2 * dy[dir];
             dir = (dir + 2) % 4;
         }
 
-        dice = checkDice(dice, dir); //주사위
-        System.out.println("dice : " + dice);
-        //System.out.println(map[nx][ny]);
-        queue.add(new Pair(nx, ny));
-        System.out.println("BFS " + nx + " " + ny);
-        visit[nx][ny] = true;
+        checkDice(dir); //주사위 이동
+
+        queue.add(new Pair(nx, ny)); //현재 아래 미리 추가
+        visit[nx][ny] = true; //방문 처리
         result += map[nx][ny] * BFS(nx, ny, map[nx][ny], 1); //점수 획득
-        System.out.println("after dir " + dir);
-        x = nx;
+
+        x = nx; //위치 이동
         y = ny;
-        if (map[x][y] < dice)
+        if (map[x][y] < dice[3][1]) //방향 바꾸기
             dir = (dir + 1) % 4;
-        else if (map[x][y] > dice)
+        else if (map[x][y] > dice[3][1])
             dir = (dir + 3) % 4;
 
-        initVisit();
+        initVisit(); //방문 처리 초기화
         move(dir, index + 1);
     }
 
@@ -80,76 +73,37 @@ public class Main {
     }
 
     //동 0, 남 1, 서 2, 북 3
-    static int checkDice(int val, int dir) {
-        switch (val) {
+    static void checkDice(int dir) { //주사위 이동
+        int temp;
+        switch (dir) {
+            case 0:
+                temp = dice[1][1];
+                dice[1][1] = dice[1][0];
+                dice[1][0] = dice[3][1];
+                dice[3][1] = dice[1][2];
+                dice[1][2] = temp;
+                break;
             case 1:
-                switch (dir) {
-                    case 0:
-                        return 4;
-                    case 1:
-                        return 5;
-                    case 2:
-                        return 3;
-                    case 3:
-                        return 2;
-                }
+                temp = dice[0][1];
+                dice[0][1] = dice[3][1];
+                dice[3][1] = dice[2][1];
+                dice[2][1] = dice[1][1];
+                dice[1][1] = temp;
+                break;
             case 2:
-                switch (dir) {
-                    case 0:
-                        return 4;
-                    case 1:
-                        return 1;
-                    case 2:
-                        return 3;
-                    case 3:
-                        return 6;
-                }
+                temp = dice[1][0];
+                dice[1][0] = dice[1][1];
+                dice[1][1] = dice[1][2];
+                dice[1][2] = dice[3][1];
+                dice[3][1] = temp;
+                break;
             case 3:
-                switch (dir) {
-                    case 0:
-                        return 2;
-                    case 1:
-                        return 1;
-                    case 2:
-                        return 5;
-                    case 3:
-                        return 6;
-                }
-            case 4:
-                switch (dir) {
-                    case 0:
-                        return 5;
-                    case 1:
-                        return 1;
-                    case 2:
-                        return 2;
-                    case 3:
-                        return 6;
-                }
-            case 5:
-                switch (dir) {
-                    case 0:
-                        return 3;
-                    case 1:
-                        return 1;
-                    case 2:
-                        return 5;
-                    case 3:
-                        return 6;
-                }
-            case 6:
-                switch (dir) {
-                    case 0:
-                        return 3;
-                    case 1:
-                        return 5;
-                    case 2:
-                        return 4;
-                    case 3:
-                        return 2;
-                }
+                temp = dice[0][1];
+                dice[0][1] = dice[1][1];
+                dice[1][1] = dice[2][1];
+                dice[2][1] = dice[3][1];
+                dice[3][1] = temp;
         }
-        return 0;
     }
 
     public static void main(String[] args) {
