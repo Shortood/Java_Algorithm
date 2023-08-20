@@ -32,12 +32,13 @@ public class Main {
             int pi = i;
             nx = pieces.get(i).x + dx[pieces.get(i).dir];
             ny = pieces.get(i).y + dy[pieces.get(i).dir];
-            System.out.println();
-            System.out.println(i + " nx = " + nx + " ny = " + ny);
+
             if (!(nx >= 0 && ny >= 0 && nx < N && ny < N && map[nx][ny] != 2)) { //파란색 or 범위 밖
-                System.out.println("밖");
                 nx = pieces.get(i).x - dx[pieces.get(i).dir];
                 ny = pieces.get(i).y - dy[pieces.get(i).dir];
+
+                if (pieces.get(i).dir % 2 == 0) pieces.get(i).dir--;
+                else pieces.get(i).dir++;
             }
 
             if (nx >= 0 && ny >= 0 && nx < N && ny < N && map[nx][ny] != 2) { //범위 안
@@ -45,7 +46,6 @@ public class Main {
                     pi = setReverse(i); //뒤집어줌
                 move(nx, ny, pi);
                 int c = count(nx, ny);
-                System.out.println(" c " + c);
                 if (c >= 4) {
                     result = cnt;
                     return;
@@ -58,7 +58,6 @@ public class Main {
 
     public static void move(int nx, int ny, int i) {
         int pre = findPrevious(i);//i번 아래에 있는 말 찾기
-        System.out.println("move to " + i + " " + nx + " " + ny);
         int ni = find(nx, ny); //갈 곳에 있는 말 번호
 
         if (ni != -1) { //갈 곳에 말이 있음
@@ -66,8 +65,7 @@ public class Main {
                 ni = pieces.get(ni).upIndex;
             pieces.get(ni).upIndex = i;
         }
-        System.out.println("ni = " + ni);
-        System.out.println("pre = " + pre);
+
         if (pre != -1)
             pieces.get(pre).upIndex = -1;
 
@@ -84,7 +82,6 @@ public class Main {
     }
 
     public static int findPrevious(int index) {
-        System.out.println("findPrevious = " + index);
         for (int i = 0; i < pieces.size(); i++) {
             if (pieces.get(i).upIndex == index)
                 return i;
@@ -102,23 +99,16 @@ public class Main {
     }
 
     public static int setReverse(int index) { //2
-        System.out.println("setReverse = " + index);
         int next, now = index, pre = index;
-        int pi = findPrevious(index);//i번 아래에 있는 말 찾기
+        int pi = findPrevious(index); //i번 아래에 있는 말 찾기
 
         next = pieces.get(index).upIndex;
-        System.out.println("next = " + next);
         pieces.get(index).upIndex = -1;
-        System.out.println(index + " up = " + -1);
         while (next != -1) {
             now = next; //0 1
-            System.out.println(index + " => " + next);
             next = pieces.get(now).upIndex; //1 -1
-            System.out.println("next = " + pieces.get(now).upIndex);
             pieces.get(now).upIndex = pre; //2
-            System.out.println("now =>" + pre);
             pre = now;
-            System.out.println("pre =" + now);
         }
         if (pi != -1)
             pieces.get(pi).upIndex = now;
@@ -126,7 +116,6 @@ public class Main {
     }
 
     public static void setPlace(int index, int nx, int ny) {
-        System.out.println("setPlace " + index + " " + nx + " " + ny);
         pieces.get(index).x = nx;
         pieces.get(index).y = ny;
         if (pieces.get(index).upIndex != -1)
