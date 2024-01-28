@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static int N, result = 0;
     static int[] T, P, DP;
 

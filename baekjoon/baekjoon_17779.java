@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static int N, d1, d2;
     static int[] precinct = new int[5];
     static int[][] map;

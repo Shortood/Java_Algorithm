@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Main {
+class Main {
     static int N, M, result = Integer.MAX_VALUE;
     static int[][] map;
     static Boolean[] visit;

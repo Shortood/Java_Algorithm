@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main {
+class Main {
     static int[][] a;
     static int[] score = new int[1001];
     static int result = 0;

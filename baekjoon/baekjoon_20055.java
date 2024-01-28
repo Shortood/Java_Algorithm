@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Main {
+class Main {
     static int N, K, cnt = 0, level = 1;
     static int up, down;
     static int[] A;

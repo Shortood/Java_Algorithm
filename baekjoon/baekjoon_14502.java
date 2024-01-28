@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static int N, M, result = 0;
     static int[][] map;
     static Boolean[][] visit;

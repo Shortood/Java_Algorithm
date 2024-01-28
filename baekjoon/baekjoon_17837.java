@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static int N, K, result;
     static int[][] map;
     static int[] dx = {0, 0, 0, -1, 1}, dy = {0, 1, -1, 0, 0};

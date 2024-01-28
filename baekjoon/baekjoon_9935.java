@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static String origin;
     static String boom;
     static int originSize, boomSize;

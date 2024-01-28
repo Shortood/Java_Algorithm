@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+class Main {
     static int N, M, r, c, d;
     static int cnt = 0;
     static int[][] map;

@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Main {
+class Main {
     static List<Fish> fishList = new ArrayList<Fish>();
     static int result = 0;
 
