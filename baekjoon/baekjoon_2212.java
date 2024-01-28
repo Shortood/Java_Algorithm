@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
-public class Main {
+class Main {
     static int N, K;
     static int[] a;
     static Integer[] b;

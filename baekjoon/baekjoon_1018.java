@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class baekjoon_1018 {
     static int N, M, min, result = Integer.MAX_VALUE;
     static char[][] map;
 

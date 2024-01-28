@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Main {
+public class baekjoon_1493 {
     static int length, width, height, N, d, result = 0;
     static int[][] cube;
     static boolean flag = true;

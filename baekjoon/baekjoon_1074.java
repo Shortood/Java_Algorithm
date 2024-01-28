@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class baekjoon_1074 {
     static int N, r, c;
     static int ans = 0;
 

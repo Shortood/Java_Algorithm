@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
+public class baekjoon_1260 {
     static int N, M, V;
     static int[][] map;
     static boolean[] check;

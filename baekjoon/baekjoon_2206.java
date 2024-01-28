@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 //지금 까지 벽을 부쉈다 -> 부순 visit
 //안 부쉈다 -> 안 부순 visit 확인
 
-public class Main {
+public class baekjoon_2206 {
     public static void main(String[] args) throws IOException {
         char[][] map;
         boolean[][] visit;

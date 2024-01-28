@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
-public class Main {
+public class baekjoon_1449 {
     static int N, L;
     static int[] a;
 
