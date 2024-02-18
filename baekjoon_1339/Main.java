@@ -30,6 +30,5 @@ public class Main {
             result += alp[i] * (9 - i);
         }
         System.out.println(result);
-
     }
 }
