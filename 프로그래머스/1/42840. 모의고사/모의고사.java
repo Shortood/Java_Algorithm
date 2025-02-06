@@ -1,7 +1,7 @@
 import java.util.*;
 
 class Solution {
-    public int[] solution(int[] answers) {
+    public Integer[] solution(int[] answers) {
         int[] first = {1, 2, 3, 4, 5},
         second = {2, 1, 2, 3, 2, 4, 2, 5},
         third = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
@@ -22,7 +22,7 @@ class Solution {
             if(sol[i]>=max) list.add(i+1);
         }
         
-        int[] answer = list.stream().mapToInt(Integer::intValue).toArray();
+        Integer[] answer = list.toArray(new Integer[0]);
         
         return answer;
     }
