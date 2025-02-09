@@ -1,36 +1,30 @@
 import java.util.*;
-import java.io.*;
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        int[] answer = {};
-        int[] remain = new int[progresses.length];
-        int cnt = 1;
-        int maxDay = -1;
-        
-        List<Integer> list = new LinkedList<>();
-        
-        for(int i=0;i<progresses.length;i++){
-            remain[i]=(100-progresses[i])/speeds[i];
-            
-            if((100-progresses[i])%speeds[i] > 0)
-                remain[i]++;
-            
-            if(remain[i] <= maxDay)
-                cnt++;
-            else {
-                if(maxDay!=-1)
-                    list.add(cnt);
-                cnt = 1;
-                maxDay = remain[i];
+        Queue<Integer> q = new LinkedList<>();
+        List<Integer> answerList = new ArrayList<>();
+
+        for (int i = 0; i < speeds.length; i++) {
+            double remain = (100 - progresses[i]) / (double) speeds[i];
+            int date = (int) Math.ceil(remain);
+
+            if (!q.isEmpty() && q.peek() < date) {
+                answerList.add(q.size());
+                q.clear();
             }
-            //System.out.println(remain[i]);
+
+            q.offer(date);
         }
 
-    
-        
-        list.add(cnt);
-        
-        return list.stream().mapToInt(Integer::intValue).toArray();
+        answerList.add(q.size());
+
+        int[] answer = new int[answerList.size()];
+
+        for (int i = 0; i < answer.length; i++) {
+            answer[i] = answerList.get(i);
+        }
+
+        return answer;
     }
 }
