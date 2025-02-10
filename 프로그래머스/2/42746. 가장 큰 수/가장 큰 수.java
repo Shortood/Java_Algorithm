@@ -24,10 +24,12 @@ class Solution {
         }
         
         String result = sb.toString();
-        System.out.println(result.length());
-       while(result.charAt(0) =='0' && result.length() > 1) {
-           result = result.substring(1);
-       }
+        //System.out.println(result.length());
+       // while(result.charAt(0) =='0' && result.length() > 1) {
+       //     result = result.substring(1);
+       // }
+        if(result.charAt(0) == '0')
+            result = "0";
         
         
         
