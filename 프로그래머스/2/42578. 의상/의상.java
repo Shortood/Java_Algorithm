@@ -3,7 +3,7 @@ import java.io.*;
 
 class Solution {
     public int solution(String[][] clothes) {
-        int answer = 0;
+        int answer = 1;
         Map<String, Integer> map = new HashMap<String, Integer>();
         
         for(String[] c: clothes){
@@ -14,21 +14,21 @@ class Solution {
             }
         }
         
-        int[] num = new int[map.size()];
+        //int[] num = new int[map.size()];
         
-        int cnt=0;
+        //int cnt=0;
         for(Map.Entry<String, Integer> entrySet : map.entrySet()){
-            num[cnt] = entrySet.getValue();
-            answer+=entrySet.getValue();
-            cnt++;
-            System.out.println(entrySet.getKey() + " " + entrySet.getValue());
+            //num[cnt] = entrySet.getValue();
+            answer*=entrySet.getValue()+1;
+            //cnt++;
+            //System.out.println(entrySet.getKey() + " " + entrySet.getValue());
         }
         
         
-        answer = dfs(num, 1, 0) - 1;
+        //answer = dfs(num, 1, 0) - 1;
         
         
-        return answer;
+        return answer - 1;
     }
     
     public int dfs(int[] num, int total, int depth) {
