@@ -12,21 +12,21 @@ class Solution {
         for(int i=0;i < N;i++){
             if(dungeons[i][0]<=k){
                 check[i]=true;
-                dfs(1, dungeons, k-dungeons[i][1], 1);
+                dfs(dungeons, k-dungeons[i][1], 1);
                 check[i]=false;
             }
         }
         return answer;
     }
     
-    static void dfs(int depth, int[][] dungeons, int nowK, int cnt){
+    static void dfs(int[][] dungeons, int nowK, int cnt){
         //System.out.println(depth + " " + nowK + " " + cnt);
         answer = Math.max(answer, cnt);
         
         for(int i=0;i<N;i++) {
             if(!check[i]&&nowK>=dungeons[i][0]) {
                 check[i]=true;
-                dfs(depth + 1, dungeons, nowK-dungeons[i][1], cnt + 1);
+                dfs(dungeons, nowK-dungeons[i][1], cnt + 1);
                 check[i]=false;
             }
         }
