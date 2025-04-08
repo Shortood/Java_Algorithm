@@ -20,15 +20,10 @@ class Solution
             W = Integer.parseInt(st.nextToken()); //가로
             K = Integer.parseInt(st.nextToken()); //기준
             answer = Integer.MAX_VALUE;
-            
-           // if(K==1) {
-              //  System.out.println("#"+test_case + " " + 0);
-           //     continue;
-            //}
+
 			map = new int[D][W];
             copy = new int[D][W];
             	// 0은 A 1은 B
-            
             for(int i=0;i<D;i++){
                  st = new StringTokenizer(br.readLine());
                 for(int j=0;j<W;j++){
@@ -36,12 +31,17 @@ class Solution
                     copy[i][j]=map[i][j];
                 }
             }
+            if(K==1) {
+                System.out.println("#"+test_case + " " + 0);
+                continue;
+            }
+
             if(isPossible()) {
                 answer=0;
                 System.out.println("#"+test_case + " " + 0);
                 continue;
             }
-            
+
             dfs(0, 0);
 
             System.out.println("#"+test_case + " " + answer);
