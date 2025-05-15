@@ -29,8 +29,8 @@ class Solution {
             }
             
             for(int t=s;t<=e;t++){ //온도
-                if(onboard[i] ==1 && (t < t1 || t > t2))
-                    continue;
+                // if(onboard[i] ==1 && (t < t1 || t > t2))
+                //     continue;
                 
                 //에어컨 켬
                 if(t<50) { //온도 올림
